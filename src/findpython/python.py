@@ -49,10 +49,12 @@ class PythonVersion:
         """Return True if the python is not broken."""
         try:
             v = self._get_version()
+        except subprocess.TimeoutExpired:
+            print("Timed out looking for interpreter version!")
+            return False
         except (
             OSError,
             subprocess.CalledProcessError,
-            subprocess.TimeoutExpired,
             InvalidVersion,
         ):
             return False
